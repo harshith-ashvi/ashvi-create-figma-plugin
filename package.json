@@ -2,12 +2,12 @@
   "name": "ashvi-create-figma-plugin",
   "version": "1.0.0",
   "description": "",
-  "main": "index.mjs",
+  "main": "./src/index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "ashvi-create-figma-plugin": "index.mjs"
+    "ashvi-create-figma-plugin": "./src/index.mjs"
   },
   "keywords": [],
   "author": "",
