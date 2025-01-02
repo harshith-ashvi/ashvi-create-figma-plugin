@@ -18,7 +18,7 @@ const argv = yargs(hideBin(process.argv))
   })
   .option("editorType", {
     alias: "e",
-    type: "array",
+    type: "string",
     choices: ["figma", "figjam", "both"],
     description: "Editor type(s)",
   })
