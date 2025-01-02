@@ -1,47 +1,82 @@
 #!/usr/bin/env node
 
 import { input, select } from "@inquirer/prompts";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
-const projectName = await input({
-  message: "Project name: ",
-  default: "my-figma-plugin",
-  required: true,
+const argv = yargs(hideBin(process.argv))
+  .option("pluginName", {
+    alias: "n",
+    type: "string",
+    description: "Plugin name",
+  })
+  .option("framework", {
+    alias: "f",
+    type: "string",
+    choices: ["vanilla", "react"],
+    description: "Framework to use",
+  })
+  .option("editorType", {
+    alias: "e",
+    type: "array",
+    choices: ["figma", "figjam", "both"],
+    description: "Editor type(s)",
+  })
+  .help().argv;
+
+let pluginName;
+if (!argv.pluginName) {
+  pluginName = await input({
+    message: "Plugin name: ",
+    default: "my-figma-plugin",
+    required: true,
+  });
+}
+
+let framework;
+if (!argv.framework) {
+  framework = await select({
+    message: "Select a framework",
+    required: true,
+    default: "vanilla",
+    choices: [
+      {
+        name: "vanilla",
+        value: "vanilla",
+      },
+      {
+        name: "react",
+        value: "react",
+      },
+    ],
+  });
+}
+
+let editorType;
+if (!argv.editorType) {
+  editorType = await select({
+    message: "Select a editor type(s)",
+    required: true,
+    default: "both",
+    choices: [
+      {
+        name: "Figma",
+        value: "figma",
+      },
+      {
+        name: "Figjam",
+        value: "figjam",
+      },
+      {
+        name: "Both",
+        value: "both",
+      },
+    ],
+  });
+}
+
+console.log("Hello Figma", {
+  pluginName: argv.pluginName ?? pluginName,
+  framework: argv.framework ?? framework,
+  editorType: argv.editorType ?? editorType,
 });
-
-const framework = await select({
-  message: "Select a framework",
-  required: true,
-  default: "vanilla",
-  choices: [
-    {
-      name: "vanilla",
-      value: "vanilla",
-    },
-    {
-      name: "react",
-      value: "react",
-    },
-  ],
-});
-
-const editorType = await select({
-  message: "Select a editor type",
-  required: true,
-  default: "both",
-  choices: [
-    {
-      name: "Figma",
-      value: "figma",
-    },
-    {
-      name: "Figjam",
-      value: "figjam",
-    },
-    {
-      name: "Both",
-      value: "both",
-    },
-  ],
-});
-
-console.log("Hello Figma", projectName, framework, editorType);
