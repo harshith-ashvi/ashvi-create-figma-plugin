@@ -5,7 +5,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
 const argv = yargs(hideBin(process.argv))
-  .option("pluginName", {
+  .option("name", {
     alias: "n",
     type: "string",
     description: "Plugin name",
@@ -24,9 +24,9 @@ const argv = yargs(hideBin(process.argv))
   })
   .help().argv;
 
-let pluginName;
-if (!argv.pluginName) {
-  pluginName = await input({
+let name;
+if (!argv.name) {
+  name = await input({
     message: "Plugin name: ",
     default: "my-figma-plugin",
     required: true,
@@ -76,7 +76,7 @@ if (!argv.editorType) {
 }
 
 console.log("Hello Figma", {
-  pluginName: argv.pluginName ?? pluginName,
+  pluginName: argv.name ?? name,
   framework: argv.framework ?? framework,
   editorType: argv.editorType ?? editorType,
 });
